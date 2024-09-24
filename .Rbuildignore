@@ -1,0 +1,12 @@
+.travis.yml
+appveyor.yml
+NEWS.md
+docs/
+tests/
+man-roxygen/
+Makefile
+.git/
+.github/
+^.*\.Rproj$
+^\.Rproj\.user$
+^_pkgdown.yml$

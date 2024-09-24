@@ -1,0 +1,65 @@
+import("methods")
+import("FLCore")
+import("FLFishery")
+import("mse")
+import("data.table")
+import("foreach")
+import("r4ss")
+importFrom("stats", "optimise", "setNames")
+importFrom("mvtnorm", "rmvnorm")
+
+export(
+  "buildFLBFss3",
+  "buildFLBFss330",
+  "buildFLIBss3",
+  "buildFLIBss330",
+  "buildFLSss3",
+  "buildFLSss330",
+  "buildFLSRss3",
+  "buildFLSss3",
+  "buildFLRPss3",
+  "buildFLRPss330",
+  "buildKobess3",
+  "buildKobess330",
+  "buildLCss330",
+  "buildRESss3",
+  "buildRESss330",
+  "convergencelevel",
+  "extractDevs",
+  "extractFbar",
+  "extractSSB",
+  "extractRec",
+  "extractZatage",
+  "loadOM",
+  "loadOMS",
+  "loadFLQs",
+  "loadFLS",
+  "loadOUT",
+  "loadRESIDs",
+  "loadRES",
+  "loadRPs",
+  "nameGrid",
+  "packss3run",
+  "prepareRetro",
+  "readCDss3",
+  "readFLIBss3",
+  "readFLoemss3",
+  "readFLomss3",
+  "readFLRPss3",
+  "readFLSss3",
+  "readFLSRss3",
+  "readFLSss3",
+  "readKobess3",
+  "readSRIss3",
+  "readOutputss3",
+  "readRESss3",
+  "readRESIDss3",
+  "readOMSss3",
+  "runss3grid",
+  "runtime",
+  "ssmvln"
+)
+
+exportMethods(
+  "results",
+  "results<-")

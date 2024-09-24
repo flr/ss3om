@@ -1,0 +1,34 @@
+Package: ss3om
+Title: Tools for Conditioning Fisheries Operating Models Using Stock Synthesis 3
+Version: 0.5.3.9001
+Authors@R: person("Iago", "Mosqueira", email = "iago.mosqueira@wur.nl",
+  role = c("aut", "cre"))
+Description: Tools for loading Stock Synthesis (SS3) models into FLR. Used in
+  conditioning of Operating Models based on SS3 by considering structural
+  uncertainty in input parameters and assumptions. A grid of SS3 runs can be
+  created and results loaded on objects of various FLR classes.
+X-schema.org-keywords: fisheries, ss3, flr, R
+Depends:
+  R (>= 3.3.2),
+  FLCore (>= 2.6.5),
+  r4ss (>= 1.50.0)
+Imports:
+  methods,
+  stats,
+  data.table,
+  foreach,
+  FLFishery,
+  mse,
+  mvtnorm
+Additional_repositories: https://flr.r-universe.dev
+Remotes: https://r4ss.r-universe.dev
+BugReports: https://github.com/flr/ss3om/issues
+Suggests:
+  doParallel,
+  testthat,
+  rlang,
+  knitr,
+  rmarkdown
+License: EUPL
+VignetteBuilder: knitr
+Roxygen: list(markdown = TRUE)
