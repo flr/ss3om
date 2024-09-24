@@ -184,6 +184,8 @@ readFLSss3 <- function(dir, repfile="Report.sso", compfile="CompReport.sso",
     waa[, year:=abs(year)]
     waa[, unit:=sex]
     waa[, season:=seas]
+    # NOTE waa$0 comes out as integer
+    waa[, `0` := as.double(`0`)]
 
     # GET ages
     ages <- dimnames(res)$age
