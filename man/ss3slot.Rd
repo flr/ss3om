@@ -42,9 +42,9 @@ ss3mat30(endgrowth, dmns, spawnseas, option = 3)
 
 ss3m30(endgrowth, dmns, birthseas)
 
-ss3n30(n, dmns)
+ss3n30(n, dmns, era = "TIME")
 
-ss3catch30(catage, wtatage, dmns, birthseas, idx)
+ss3catch30(catage, wtatage, dmns, birthseas, idx, col = "RetWt", era = "TIME")
 }
 \arguments{
 \item{cpue}{A data frame obtained from SS_output$cpue.}

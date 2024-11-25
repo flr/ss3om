@@ -728,13 +728,17 @@ buildFLBFss330 <- function(out, morphs=out$morph_indexing$Index, name=out$Contro
 #'
 #' @examples
 #' # LOAD data file
-#' albd <- SS_readdat(file.path(path, 'abt.dat'))
-#' lcs <- buildLCss330(albd)
-#' plotLengths(lcs[[1]][, c(1, 5, 10, 15, 20)])
-#' plotLengths(seasonSums(lcs[[5]][, c(1, 5, 10, 15, 20)]))
-#' lapply(lcs, function(x) unitSums(quantSums(seasonSums(x))))
+#' #albd <- SS_readdat(system.file("ext-data", "albio", "abt.dat", package="ss3om"))
+#' #lcs <- buildLCss330(albd)
+#' #ggplotFL::plotLengths(lcs[[1]][, c(1, 5, 10, 15, 20)])
+#' #ggplotFL::plotLengths(seasonSums(lcs[[5]][, c(1, 5, 10, 15, 20)]))
+#' #lapply(lcs, function(x) unitSums(quantSums(seasonSums(x))))
 
 buildLCss330 <- function(dat) {
+
+  # CHECK lencomp exists
+  if(is.null(dat$lencomp))
+    stop("No 'lencomp' element in dat file")
 
   # EXTRACT lencomp
   lencomp <- data.table(dat$lencomp)
@@ -751,7 +755,8 @@ buildLCss330 <- function(dat) {
 
   # MELT to long format
   lc <- melt(lencomp[, .SD, .SDcols=c(1, 2, 3, seq(7, nlen * nsex + 6))],
-      id.vars=c("Yr", "Seas", "FltSvy"), variable.name="len", value.name="data")
+      id.vars=c("year", "month", "fleet"), variable.name="len",
+      value.name="data")
 
   # SPLIT len & unit
   if(nsex == 2) {

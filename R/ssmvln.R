@@ -79,6 +79,8 @@ sscor <- function(covar){
 
 # ssmvln {{{
 
+#' FLQuant version of ss3diags::MVLN
+#'
 #' @examples
 #' data(sma)
 #' head(ssmvln(sma$CoVar, sma$derived_quants, as.FLQuants=FALSE))

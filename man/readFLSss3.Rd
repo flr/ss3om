@@ -15,13 +15,13 @@ readFLSss3(
 \arguments{
 \item{dir}{Directory holding the SS3 output files}
 
+\item{repfile}{SS3 Report.sso file}
+
+\item{compfile}{SS3 CompReport.sso file}
+
+\item{wtatage}{Is a wtatage.ss being usee? Logical}
+
 \item{...}{Any other argument to be passed to \code{r4ss::SS_output}}
-
-\item{birthseas}{Birth seasons for this stock, defaults to spawnseas}
-
-\item{name}{Name of the output object to fil the name slot}
-
-\item{desc}{Description of the output object to fill the desc slot}
 }
 \value{
 An object of class \verb{\link{FLStock}}

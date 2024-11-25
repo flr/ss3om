@@ -18,6 +18,10 @@ readFLIBss3(
 
 \item{birthseas}{The birthseasons for this stock as a numeric vector.}
 
+\item{repfile}{SS3 Report.sso file}
+
+\item{compfile}{SS3 CompReport.sso file}
+
 \item{...}{Any other argument to be passed to \code{r4ss::SS_output}}
 }
 \value{

@@ -8,11 +8,11 @@
 \alias{extractDevs}
 \title{Extracts derived quantities from SS output}
 \usage{
-extractSSB(out)
+extractSSB(out, endyr = sum(c(out$endyr, out$nforecastyears), na.rm = TRUE))
 
-extractRec(out)
+extractRec(out, endyr = sum(c(out$endyr, out$nforecastyears), na.rm = TRUE))
 
-extractFbar(out)
+extractFbar(out, endyr = sum(c(out$endyr, out$nforecastyears), na.rm = TRUE))
 
 extractZatage(out)
 
@@ -44,7 +44,7 @@ with the \code{Recr_y} values split according to the recruitment sex ratio. This
 is extracted from \code{recruitment_dist[[1]][, "Frac/sex"]}.
 
 The value returned by \code{extractFbar} is the actual mean F over the age range,
-and the value in \code{derived_quants} is corrected according to \code{F_report_basis}
+and the value in \code{derived_quants} is corrected according to \code{F_std_basis}
 for models where F reporting basis is F/FMSY.
 }
 \examples{

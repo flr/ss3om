@@ -19,6 +19,8 @@
 #' @param dir Directory containing the SS3 output files
 #' @param birthseas The birthseasons for this stock as a numeric vector.
 #' @param ... Any other argument to be passed to `r4ss::SS_output`
+#' @param repfile SS3 Report.sso file
+#' @param compfile SS3 CompReport.sso file
 #'
 #' @return An object of class [FLStock][FLCore::FLStock]
 #'
@@ -146,9 +148,9 @@ readFLSRss3 <- function(dir, birthseas=out$birthseas, repfile="Report.sso",
 #' Fisheries Research 142: 86-99.
 #'
 #' @param dir Directory holding the SS3 output files
-#' @param birthseas Birth seasons for this stock, defaults to spawnseas
-#' @param name Name of the output object to fil the name slot
-#' @param desc Description of the output object to fill the desc slot
+#' @param repfile SS3 Report.sso file
+#' @param compfile SS3 CompReport.sso file
+#' @param wtatage Is a wtatage.ss being usee? Logical
 #' @param ... Any other argument to be passed to `r4ss::SS_output`
 #'
 #' @return An object of class `\link{FLStock}`
