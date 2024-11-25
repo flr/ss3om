@@ -12,6 +12,24 @@ library(FLasher)
 library(patchwork)
 
 
+# COMPARE effort and F/selex
+
+path <- file.path("3.30", "albio")
+
+alb <- readOutputss3(path)
+
+flb <- buildFLBFss330(alb)
+fis <- flb$fisheries[[1]]
+
+
+fqs <- FLQuants(E=effort(fis),
+  F=quantSums(harvest(flb$biol, fis) / catch.sel(fis[[1]])))
+
+dimnames(fqs$F) <- list(effort='all')
+
+plot(fqs)
+
+
 # fwd(stk, fbar)
 
 # fwd(stk, catch)

@@ -206,18 +206,19 @@ readFLSss3 <- function(dir, repfile="Report.sso", compfile="CompReport.sso",
     stock.wt(res)[] <- wasq[["0"]]
 
     # mat, Fleet = -2 / wt
-    # TODO: CHANGE 0 by ouit$spawnseas (Is it spawn_month?)
+    # TODO: CHANGE 0 by out$spawnseas (Is it spawn_month?)
     nmat <- wasq[["-2"]] %/% wasq[["0"]]
     mat(res)[] <- nmat
 
-    # IDENTIFY catch fleets
+    # POPULATE fleet_type if missing BUG: MATCH discards fleets
     if(is.null(out$fleet_type)) {
       out$fleet_type <- rep(3, out$nfleets)
       out$fleet_type[out$fleet_ID %in% unique(out$catch$Fleet)] <- 1
     }
 
+    # IDENTIFY catch & bycatch fleets
     idx <- names(wasq)[!names(wasq) %in%
-      c("0", "-1", "-2")][out$fleet_type == 1]
+      c("0", "-1", "-2")][out$fleet_type %in% c(1)]
 
     # COMPUTE catch.wt DEBUG weighted average
     catch.wt(res)[] <- Reduce("+", wasq[idx]) /
