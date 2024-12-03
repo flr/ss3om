@@ -21,9 +21,7 @@ Imports:
   mse,
   mvtnorm
 Additional_repositories:
-  https://flr.r-universe.dev,
-  https://r4ss.r-universe.dev
-Remotes: r4ss/r4ss
+  https://flr.r-universe.dev
 BugReports: https://github.com/flr/ss3om/issues
 Suggests:
   doParallel,
