@@ -20,8 +20,10 @@ Imports:
   FLFishery,
   mse,
   mvtnorm
-Additional_repositories: https://flr.r-universe.dev
-Remotes: https://r4ss.r-universe.dev/
+Additional_repositories:
+  https://flr.r-universe.dev,
+  https://r4ss.r-universe.dev
+Remotes: r4ss/r4ss
 BugReports: https://github.com/flr/ss3om/issues
 Suggests:
   doParallel,
