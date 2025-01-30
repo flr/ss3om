@@ -34,7 +34,8 @@ buildFLSss330 <- function(out, morphs=out$morph_indexing$Index,
     "discard", "discard_at_age", "catch", "NatMort_option", 
     "GrowthModel_option", "recruitment_dist",
     "Maturity_option", "Fecundity_option", "Z_at_age", "M_at_age",
-    "mean_body_wt", "Spawn_seas", "Spawn_timing_in_season", "morph_indexing")]
+    "mean_body_wt", "Spawn_seas", "Spawn_timing_in_season", "Spawn_month",
+    "morph_indexing")]
 
   # GET ages from catage
   ages <- getRange(out$catage)
@@ -190,8 +191,9 @@ buildFLSss330 <- function(out, morphs=out$morph_indexing$Index,
   stock(stock) <- computeStock(stock)
 
   # ASSIGN harvest.spwn and m.spwn
-  harvest.spwn(stock) <- out$Spawn_timing_in_season
-  m.spwn(stock) <- out$Spawn_timing_in_season
+  m.spwn(stock) <- harvest.spwn(stock) <-ifelse(
+    is.na(out$Spawn_timing_in_season),
+    floor(out$Spawn_month/12), out$Spawn_timing_in_season)
 
   # TODO: CHECK if GP & areas are linked
   gpareas <- out$recruitment_dist$recruit_dist[, c("G_pattern", "Area")]
