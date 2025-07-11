@@ -35,11 +35,12 @@ buildFLSss330 <- function(out, morphs=out$morph_indexing$Index,
     "GrowthModel_option", "recruitment_dist",
     "Maturity_option", "Fecundity_option", "Z_at_age", "M_at_age",
     "mean_body_wt", "Spawn_seas", "Spawn_timing_in_season", "Spawn_month",
-    "morph_indexing")]
+    "morph_indexing", "recruitment_dist")]
 
   # GET ages from catage
   ages <- getRange(out$catage)
   ages <- ac(seq(ages['min'], ages['max']))
+  # MATCH sex , areas, & gpatterns
   dmns <- getDimnames(out, era=era)
   dim <- unlist(lapply(dmns, length))
 
@@ -125,6 +126,8 @@ buildFLSss330 <- function(out, morphs=out$morph_indexing$Index,
     # EXTRACT datage
     datage <- data.table(out$discard_at_age)
     setkey(datage, "Area", "Fleet", "Yr", "Seas", "Era", "Type")
+    disc <- data.table(out$discard)
+    setkey(disc, "Area", "Fleet", "Yr", "Seas")
 
     # CHECK for type 4 (predator fleets)
     if(any(unique(datage$Fleet) %in% fleets)) {
@@ -163,10 +166,6 @@ buildFLSss330 <- function(out, morphs=out$morph_indexing$Index,
       if(any(idx))
         discards.wt[idx] <- c(mdiscards.wt)[c(idx)]
 
-      # EXPAND discards FLQuants for areas / seasons with no data
-      discards.n <- expand(discards.n, area=dimnames(catch.n)$area,
-        season=dimnames(catch.n)$season)
-      
       # EXPAND discards FLQuants for areas / seasons with no data
       discards.n <- expand(discards.n, area=dimnames(catch.n)$area,
         season=dimnames(catch.n)$season)

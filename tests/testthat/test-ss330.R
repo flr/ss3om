@@ -1,4 +1,4 @@
-# test-ss291.R - TEST for load, build and read SS 3.30 models
+# test-ss3.R - TEST for load, build and read SS 3.30 models
 # ss3om/tests/testthat/test-ss330.R
 
 # Copyright WUR, 2020
