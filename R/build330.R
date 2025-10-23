@@ -608,7 +608,8 @@ buildFLBFss330 <- function(out, morphs=out$morph_indexing$Index, name=out$Contro
       pars[, i, i] <- c(out$parameters[mname, "Value"],
         out$derived_quants["Recr_Virgin", "Value"],
         out$derived_quants["SSB_Virgin", "Value"],
-        recdist[i, "Frac/sex"])
+        recdist[i, "Seas"])
+        #recdist[i, "Frac/sex"])
     }
   }
 
