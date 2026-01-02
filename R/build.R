@@ -193,7 +193,7 @@ buildFLSRss3 <- function(out, ...) {
       R0=exp(rawp[Label == "SR_LN(R0)", Value]),
       v=dquants[Label == "SSB_Virgin", Value],
       sratio=1 / out$nsexes,
-      units=c("", "1000", "t"))
+      units=c("", "1000", "t", ""))
     model <- "bevholtss3"
     attr(logLik, "df") <- length(rawp[!is.na(Active_Cnt), Active_Cnt])
   # survSRR
