@@ -169,7 +169,7 @@ buildFLSRss3 <- function(out, ...) {
   # SUBSET out
   out <- out[c("parameters", "recruit", "derived_quants", "nseasons",
     "nsexes", "likelihoods_used", "SRRtype", "spawnseas", "CoVar",
-    "sigma_R_info")]
+    "sigma_R_info", "birthseas")]
 
   # EXTRACT elements
   recruit <- data.table(out$recruit)[era %in% c("Early","Fixed","Main","Fore"),]
@@ -236,7 +236,7 @@ buildFLSRss3 <- function(out, ...) {
       dimnames=list(params=dimnames(params)$params,
       season=seq(out$nseasons), iter=1))
 
-    params[, -out$spawnseas,] <- NA
+    params[, -out$birthseas,] <- NA
   }
   
   # vcov
