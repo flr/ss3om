@@ -171,6 +171,10 @@ buildFLSRss3 <- function(out, ...) {
     "nsexes", "likelihoods_used", "SRRtype", "spawnseas", "CoVar",
     "sigma_R_info", "birthseas")]
 
+  # HACK: SET SRRtype as BevHolt if missing, TBF in r4ss::r4ss
+  if(out$SRRtype == "")
+    out$SRRtype <- 3
+
   # EXTRACT elements
   recruit <- data.table(out$recruit)[era %in% c("Early","Fixed","Main","Fore"),]
   parameters <- data.table(out$parameters)
