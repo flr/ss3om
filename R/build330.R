@@ -77,7 +77,7 @@ buildFLSss330 <- function(out, morphs=out$morph_indexing$Index,
 
   # MAT
   # NOTE birthseas from morph_indexing
-  mat <- ss3mat30(endgrowth, dmns, spawnseas=out$spawnseas,
+  mat <- ss3mat30(endgrowth, dmns, spawnseas=out$birthseas,
     option=out$Maturity_option)
 
   # CORRECT Mat*Fecund to by unit body weight
