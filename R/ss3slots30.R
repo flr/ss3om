@@ -25,7 +25,7 @@ ss3mat30 <- function(endgrowth, dmns, spawnseas, option=3) {
   if(option == 3)
     mat[, mat:= Age_Mat]
 
-  # maturity option 1: at=Mat*Fecund / Wt_Beg
+  # maturity option 1: mat=Mat*Fecund / Wt_Beg
   if(option %in% c(1, 4))
     mat[, mat:= `Mat*Fecund` / Wt_Beg]
 
@@ -39,14 +39,18 @@ ss3mat30 <- function(endgrowth, dmns, spawnseas, option=3) {
   
   # DEBUG
   if(!option %in% c(3, 4, 6, 1, 2, 5))
-    stop(paste0("maturity option not covered yet, option: ", option))
+    stop(paste0("maturity option ", option, " not covered yet, pleaase fill an issue"))
 
   # DELETE columns
   mat[ ,`:=`(Age_Mat = NULL, `Mat*Fecund` = NULL, Wt_Beg = NULL,
     Mat_F_wtatage = NULL, Mat_F_Natage = NULL)]
 
-  # SET mat out of Spawn_seas to 0
-  mat[!Seas %in% spawnseas, mat:=0]
+  # SET mat by unit / Seas
+  if(all(mat[, unique(unit)] == mat[, unique(Seas)])) {
+    mat[Seas != unit, mat := 0]
+  }
+  # CHECK: SET mat out of Spawn_seas to 0
+  # mat[!Seas %in% spawnseas, mat:=0]
 
   # RENAME
   names(mat) <- c("unit", "season", "age", "data")
