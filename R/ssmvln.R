@@ -143,3 +143,37 @@ ssmvln <- function(covar, hat=NULL, mc=500, new=!FALSE, as.FLQuants=TRUE) {
   return(rtn)
 }
 # }}}
+
+# mvlnFLQuants {{{
+
+# SSB/SSB?, F/F?, SSB, F, R, C 
+
+
+mvlnFLQuants <- function(mvln) {
+
+  # SET input and output names
+  nms <- setNames(c("Recr", "SSB", "Catch", "F"),
+    nm=c("Rec", "SSB", "Catch", "F"))
+  
+  # SET units of measurement
+  uns <- c("t", "f", "1000", "t")
+
+  # EXTRACT table
+  dat <- mvln$kb
+
+  # MAP over names and units to extract
+  res <- FLQuants(Map(function(nm, un) {
+
+    dat <- dat[, c('year', 'iter', nm)]
+    colnames(dat)[3] <- 'data'
+    
+    out <- as.FLQuant(dat)
+    units(out) <- un
+    
+    return(out)
+  }, nm=nms, un=uns))
+
+  return(res)
+}  
+
+# }}}
