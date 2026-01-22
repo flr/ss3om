@@ -38,6 +38,7 @@ export(
   "loadRESIDs",
   "loadRES",
   "loadRPs",
+  "mvlnFLQuants",
   "nameGrid",
   "packss3run",
   "prepareRetro",
