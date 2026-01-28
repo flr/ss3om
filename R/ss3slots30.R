@@ -11,10 +11,10 @@
 #' @details - `ss3mat30` returns the `mat` slot.
 
 ss3mat30 <- function(endgrowth, dmns, spawnseas, option=3) {
-  
+
   # EXTRACT mat - endgrowth
   mat <- endgrowth[, .(unit, Seas, Age, Age_Mat, `Mat*Fecund`, Wt_Beg,
-    Mat_F_wtatage, Mat_F_Natage)]
+    Mat_F_wtatage, Mat_F_Natage, Len_Mat)]
 
   # maturity option 6: mat=Mat*Fecund / max(Mat*Fecund)
   if(option == 6)
@@ -25,9 +25,13 @@ ss3mat30 <- function(endgrowth, dmns, spawnseas, option=3) {
   if(option == 3)
     mat[, mat:= Age_Mat]
 
-  # maturity option 1: mat=Mat*Fecund / Wt_Beg
-  if(option %in% c(1, 4))
+  # maturity option 4: mat=Mat*Fecund / Wt_Beg
+  if(option == 4)
     mat[, mat:= `Mat*Fecund` / Wt_Beg]
+
+  # maturity option 1: mat=Len_mat
+  if(option == 1)
+    mat[, mat:= Len_Mat]
 
   # DEBUG
   if(option == 2)
@@ -43,7 +47,7 @@ ss3mat30 <- function(endgrowth, dmns, spawnseas, option=3) {
 
   # DELETE columns
   mat[ ,`:=`(Age_Mat = NULL, `Mat*Fecund` = NULL, Wt_Beg = NULL,
-    Mat_F_wtatage = NULL, Mat_F_Natage = NULL)]
+    Mat_F_wtatage = NULL, Mat_F_Natage = NULL, Len_Mat = NULL)]
 
   # SET mat by unit / Seas
   if(all(mat[, unique(unit)] == mat[, unique(Seas)])) {
