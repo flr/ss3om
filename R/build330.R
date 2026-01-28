@@ -209,7 +209,7 @@ buildFLSss330 <- function(out, morphs=out$morph_indexing$Index,
 } # }}}
 
 # buildFLIBss330 - FLIndices(FLIndexBiomass) {{{
-buildFLIBss330 <- function(out, fleets, birthseas=out$birthseas, ...) {
+buildFLIBss330 <- function(out, fleets, birthseas=out$birthseas, dat=NULL, ...) {
   
   # SUBSET from out
   out <- out[c("cpue", "ageselex", "endgrowth", "catage", "definitions",

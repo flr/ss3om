@@ -94,6 +94,7 @@ test_that("Calculated albio annual Z at age matches that in Report.sso", {
 path <- file.path("3.30", "herring")
 
 her <- readOutputss3(path)
+herd <- SS_readdat(file.path(path, "HerringSD3031_datav3_30_10.dat"))
 hers <- readFLSss3(path, range = c(minfbar=3, maxfbar=7))
 
 # CHECK SS_output & FLStock load

@@ -648,8 +648,6 @@ buildFLBFss3 <- function(out, birthseas=unique(out$natage$BirthSeas)) {
 
 } # }}}
 
-# TODO: HACK for no discards selex
-
 # buildFLSss3 - FLStock {{{
 
 HbuildFLSss3 <- function(out, birthseas=out$birthseas, name=out$Control_File,

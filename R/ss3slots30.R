@@ -101,8 +101,10 @@ ss3n30 <- function(n, dmns, era="TIME") {
   n <- n[`Beg/Mid` == "B" & Era %in% era,
     .SD, .SDcols = c("Area", "unit", "Yr", "Seas", dmns$age)]
 
+  # HACK 0 convert to double
+  n[, `0`:=as.numeric(`0`)]
+
   # MELT by Sex, unit, Yr & Seas
-  # TODO convert to double
 	n <- data.table::melt(n, id.vars=c("Area", "unit", "Yr", "Seas"),
     variable.name="age")
   setorder(n, "Area", "Seas", "unit")
@@ -134,9 +136,10 @@ ss3catch30 <- function(catage, wtatage, dmns, birthseas, idx, col="RetWt",
   catage[, Seas := if(length(unique(Seas)) == 1) "all" else Seas]
   catage[, Area := if(length(unique(Area)) == 1) "unique" else Area]
 
-  # MELT by Sex, BirthSeas, Yr & Seas
+  # CONVERT age columns to double
   catage[, (dmns$age) := lapply(.SD, as.double), .SDcols = dmns$age]
 
+  # MELT by Sex, BirthSeas, Yr & Seas
 	catage <- data.table::melt(catage, id.vars=c("Area", "Fleet", "Yr", "Seas",
     "unit"), measure.vars=dmns$age, variable.name="age")
 
