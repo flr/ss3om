@@ -172,8 +172,12 @@ buildFLSRss3 <- function(out, ...) {
     "sigma_R_info", "birthseas")]
 
   # HACK: SET SRRtype as BevHolt if missing, TBF in r4ss::r4ss
-  if(out$SRRtype == "")
-    out$SRRtype <- 3
+  if(out$SRRtype == "") {
+    if(any(grepl("Ricker",rownames(out$parameters))))
+      out$SRRtype <- 2
+    else
+      out$SRRtype <- 3
+  }
 
   # EXTRACT elements
   recruit <- data.table(out$recruit)[era %in% c("Early","Fixed","Main","Fore"),]
@@ -199,6 +203,17 @@ buildFLSRss3 <- function(out, ...) {
       sratio=1 / out$nsexes,
       units=c("", "1000", "t", ""))
     model <- "bevholtss3"
+    attr(logLik, "df") <- length(rawp[!is.na(Active_Cnt), Active_Cnt])
+  # Ricker
+  } else if(out$SRRtype == 2) {
+    params <- FLPar(
+      R0=exp(out$parameters["SR_LN(R0)", "Value"]),
+      b=out$parameters["SR_Ricker_beta", "Value"],
+      sigmaR=out$parameters["SR_sigmaR", "Value"],
+      regime=out$parameters["SR_regime", "Value"],
+      rho=out$parameters["SR_autocorr", "Value"],
+      units=c("1000", "", "", "", ""))
+    model <- "ricker"
     attr(logLik, "df") <- length(rawp[!is.na(Active_Cnt), Active_Cnt])
   # survSRR
   } else if(out$SRRtype == 7) {
