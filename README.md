@@ -1,7 +1,7 @@
 # ss3om <img src="man/figures/logo.png" align="right" width="120" />
 
 [![R-CMD-check](https://github.com/flr/ss3om/workflows/R-CMD-check/badge.svg)](https://github.com/flr/ss3om/actions)
-[![License](https://flr-project.org/img/eupl12.svg)](https://eupl.eu/1.2/en/)
+[![License](https://flrproject.org/img/eupl12.svg)](https://eupl.eu/1.2/en/)
 
 ## Overview
 Tools for loading Stock Synthesis (SS3) models into FLR. Used in conditioning of Operating Models based on SS3 by considering structural uncertainty in input parameters and assumptions. A grid of SS3 runs can be created and results loaded on objects of various classes, ready for use in FLR.
@@ -11,7 +11,7 @@ To install this package, and all its dependencies, start R and enter:
 
 ```
   install.packages("ss3om", repos=structure(
-    c(CRAN="https://cloud.r-project.org/", FLR="https://flr-project.org/R")))
+    c(CRAN="https://cloud.r-project.org/", FLR="https://flr.r-universe.net")))
 ```
 
 or directly from the github repository by first updating to the latest version of [r4ss](https://github.com/r4ss/r4ss):
@@ -28,7 +28,6 @@ Different FLR objects can be loaded from a folder containing the output of an SS
 ```{r}
 dir <- system.file("ext-data", "herring", package="ss3om")
 ```
-
 
 To create an *FLStock* object from a model run, we can call *readFLSss3*,
 
@@ -50,7 +49,6 @@ plot(her)
 ```
 
 ![srr](man/figures/srr.png)
-
 
 ## License
 Copyright (c) 2016-2022 European Union & Iago Mosqueira. Released under the [EUPL 1.2](https://eupl.eu/1.2/en/).
