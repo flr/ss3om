@@ -11,7 +11,7 @@ To install this package, and all its dependencies, start R and enter:
 
 ```
   install.packages("ss3om", repos=structure(
-    c(CRAN="https://cloud.r-project.org/", FLR="https://flr.r-universe.net")))
+    c(CRAN="https://cloud.r-project.org/", FLR="https://flr.r-universe.dev")))
 ```
 
 or directly from the github repository by first updating to the latest version of [r4ss](https://github.com/r4ss/r4ss):
