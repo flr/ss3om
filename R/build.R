@@ -206,13 +206,13 @@ buildFLSRss3 <- function(out, ...) {
     attr(logLik, "df") <- length(rawp[!is.na(Active_Cnt), Active_Cnt])
   # Ricker
   } else if(out$SRRtype == 2) {
-    params <- FLPar(
-      R0=exp(out$parameters["SR_LN(R0)", "Value"]),
-      b=out$parameters["SR_Ricker_beta", "Value"],
-      sigmaR=out$parameters["SR_sigmaR", "Value"],
-      regime=out$parameters["SR_regime", "Value"],
-      rho=out$parameters["SR_autocorr", "Value"],
-      units=c("1000", "", "", "", ""))
+      R0 <- exp(out$parameters["SR_LN(R0)", "Value"])
+      s <- out$parameters["SR_Ricker_beta", "Value"]
+      v <- dquants[Label == "SSB_Virgin", Value]
+      sigmaR <- out$parameters["SR_sigmaR", "Value"]
+      rho <- out$parameters["SR_autocorr", "Value"]
+      params <- FLPar(a=4 * s / (1 - s) / (v/s),
+        b=(5 * s-1) / (1-s) / (v/s) / R0, sigmaR=sigmaR, rho=rho)
     model <- "ricker"
     attr(logLik, "df") <- length(rawp[!is.na(Active_Cnt), Active_Cnt])
   # survSRR
