@@ -206,13 +206,15 @@ buildFLSRss3 <- function(out, ...) {
     attr(logLik, "df") <- length(rawp[!is.na(Active_Cnt), Active_Cnt])
   # Ricker
   } else if(out$SRRtype == 2) {
+    # params
       R0 <- exp(out$parameters["SR_LN(R0)", "Value"])
+      B0 <- dquants[Label == "SSB_Virgin", Value]
       s <- out$parameters["SR_Ricker_beta", "Value"]
-      v <- dquants[Label == "SSB_Virgin", Value]
       sigmaR <- out$parameters["SR_sigmaR", "Value"]
       rho <- out$parameters["SR_autocorr", "Value"]
-      params <- FLPar(a=4 * s / (1 - s) / (v/s),
-        b=(5 * s-1) / (1-s) / (v/s) / R0, sigmaR=sigmaR, rho=rho)
+      # convert
+      params <- FLPar(a=4 * s / (1 - s) / (B0/R0),
+        b=(5 * s-1) / (1-s) / (B0/R0) / R0, R0=R0, B0=B0, s=s, sigmaR=sigmaR, rho=rho)
     model <- "ricker"
     attr(logLik, "df") <- length(rawp[!is.na(Active_Cnt), Active_Cnt])
   # survSRR
@@ -240,13 +242,13 @@ buildFLSRss3 <- function(out, ...) {
   fitted <- FLQuant(recruit$exp_recr, dimnames=c(age=0, dms), 
     units="1000")
   
-  # residuals with bias-correction  
+  # residuals with bias-correction
   residuals <- FLQuant(exp(recruit$dev - recruit$biasadjuster * 0.5 *
     out$sigma_R_info[1, 8] ^ 2), dimnames=c(age=0, dms), units="")
-  
-  if(out$nsexes == 2) {
-    residuals <- expand(residuals, unit=c("F", "M"))
-  }
+ 
+  #if(out$nsexes == 2) {
+  # residuals <- expand(residuals, unit=c("F", "M"))
+  #}
   
   # SETUP for multiple recruit seasons
   if(out$nseasons > 1) {
