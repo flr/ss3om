@@ -242,14 +242,9 @@ buildFLSRss3 <- function(out, ...) {
   fitted <- FLQuant(recruit$exp_recr, dimnames=c(age=0, dms), 
     units="1000")
   
-  # residuals with bias-correction
-  residuals <- FLQuant(exp(recruit$dev - recruit$biasadjuster * 0.5 *
-    out$sigma_R_info[1, 8] ^ 2), dimnames=c(age=0, dms), units="")
+  # residuals
+  residuals <- exp(residuals(rec, fitted))
  
-  #if(out$nsexes == 2) {
-  # residuals <- expand(residuals, unit=c("F", "M"))
-  #}
-  
   # SETUP for multiple recruit seasons
   if(out$nseasons > 1) {
 
