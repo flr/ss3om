@@ -123,8 +123,9 @@ ssmvln <- function(covar, hat=NULL, mc=500, new=!FALSE, as.FLQuants=TRUE) {
   
   ## return object
   rtn <- data.table(rtn)
-  names(rtn) <- dimnames(cor)[[1]]
 
+  rtn[, grep("[[:digit:]]", colnames(rtn), invert=TRUE):=NULL]
+  
   rtn[, iter:=seq(mc)]
   rtn <- melt(rtn, id="iter")
   rtn <- rtn[, c("variable", "year"):= tstrsplit(variable, "_")]
