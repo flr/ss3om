@@ -207,9 +207,9 @@ readFLSss3 <- function(dir, repfile="Report.sso", compfile="CompReport.sso",
     # stock.wt, Fleet = 0
     stock.wt(res)[] <- wasq[["0"]]
 
-    # mat, Fleet = -2 / wt
-    # TODO: CHANGE 0 by out$spawnseas (Is it spawn_month?)
-    nmat <- wasq[["-2"]] %/% wasq[["0"]]
+    # mat, Fleet = -2 / wt -1
+    # TODO: CHANGE -1 by out$spawnseas (Is it spawn_month?)
+    nmat <- wasq[["-2"]] %/% wasq[["-1"]]
     mat(res)[] <- nmat
 
     # POPULATE fleet_type if missing BUG: MATCH discards fleets
