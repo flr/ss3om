@@ -78,9 +78,9 @@ getRange <- function(x, era="TIME") {
 
 # packss3run {{{
 packss3run <- function(dir=getwd(),
-  gzfiles=c("Report.sso", "covar.sso", "wtatage.ss_new", "CompReport.sso"),
+  gzfiles=c("Report.sso", "covar.sso", "CompReport.sso"),
   keepfiles=c("warning.sso", "Forecast-report.sso", "starter.ss", "forecast.ss",
-    "ss3.par", "ss.par", "ss.cor", "watatage.ss"),
+    "ss3.par", "ss.par", "ss.cor", "watatage.ss", "wtatage.ss_new"),
   inputfiles=c("control.ss", "data.ss", list.files(dir, pattern="*.ctl|dat$"))) {
 
   # CHECK if already compressed
@@ -90,14 +90,14 @@ packss3run <- function(dir=getwd(),
   }
 
   # REMOVE unneeded files
-  allfiles <- list.files(dir)
-  filemat <- match(c(gzfiles, keepfiles, inputfiles), allfiles)
+  allfiles <- setdiff(list.files(dir, full.names=TRUE),
+    list.dirs(dir, recursive=FALSE))
+  filemat <- match(c(gzfiles, keepfiles, inputfiles), basename(allfiles))
   rmfiles <- c(allfiles[-filemat[!is.na(filemat)]], "gradient.dat")
-  res <-  file.remove(file.path(dir, rmfiles))
+  res <-  file.remove(rmfiles)
 
   # gzip files
   gzfiles <- file.path(dir, gzfiles)
-
   lapply(gzfiles, function(x) system(paste0("gzip ", x)))
 
   invisible(0)

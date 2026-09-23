@@ -80,13 +80,13 @@ extractRec <- function(out, endyr=sum(c(out$endyr, out$nforecastyears), na.rm=TR
     unit=list("unique", c("F", "M"))[[out$nsexes]]), units="1000"))
 }
 
-extractRecci <- function(out) {
+extractRecci <- function(out, endyr=out$endyr) {
 
   rec <- data.table(out$derived_quants)[Label %in% paste0("Recr_",
-    seq(out$startyr, out$endyr)), .(Value, StdDev)]
+    seq(out$startyr, endyr)), .(Value, StdDev)]
 
   res <- FLQuantPoint(FLQuant(dimnames=list(age="all",       
-    year=seq(out$startyr, out$endyr)), units="numbers"))
+    year=seq(out$startyr, endyr)), units="numbers"))
 
   mean(res)[] <- rec$Value
   median(res)[] <- rec$Value

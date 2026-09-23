@@ -73,6 +73,145 @@ folder -----------> list ---------> FL*
 
 ```
 
+# The `sol` dataset
+
+The package ships with `sol`, a full `r4ss::SS_output` list obtained from a **SS** 3.30 assessment of a sole stock, and stored as a `data(sol)` dataset. The original model files, used by the `read*` functions below, are also distributed with the package under `system.file("ext-data/sol", package="ss3om")`. This dataset is used in this section to demonstrate every `read` and `build` function in *ss3om*.
+
+```{r solpkgs, echo=TRUE}
+data(sol)
+
+class(sol)
+sol$SS_version
+```
+
+## `read` functions on `sol`
+
+The `read*` functions load a **SS** run directly from its output folder, calling `readOutputss3()` internally and then dispatching to the relevant `build*` function depending on the **SS** version of the model.
+
+```{r solread, echo=TRUE}
+dir <- system.file("ext-data/sol", package="ss3om")
+```
+
+| Function        | Output class | Description                                    |
+|------------------|--------------|-------------------------------------------------|
+| readOutputss3   | *list*       | Loads Report, CompReport and covar files with `r4ss::SS_output` |
+| readFLSss3      | *FLStock*    | Stock and catch time series                     |
+| readFLSRss3     | *FLSR*       | Stock-recruitment relationship                  |
+| readFLRPss3     | *FLPar*      | Reference points (B0, R0, SBMSY, FMSY, MSY, ...) |
+| readKobess3     | *FLQuants*   | B/BMSY and F/FMSY time series (Kobe plot)        |
+| readRESss3      | *data.table* | Time series of stock summary results            |
+| readFLIBss3     | *FLIndices*  | Abundance indices, as `FLIndexBiomass`           |
+| readFLomss3     | *FLom*       | Operating model, stock + stock-recruit + refpts  |
+| readOMSss3      | *list*       | List of elements used to build an operating model|
+| readCDss3       | *list*       | `ctl` and `dat` input files, via `r4ss`          |
+
+```{r solreadfls, echo=TRUE}
+sol.stk <- readFLSss3(dir, name="SOL")
+plot(sol.stk)
+```
+
+```{r solreadflsr, echo=TRUE}
+sol.sr <- readFLSRss3(dir)
+sol.sr
+```
+
+```{r solreadflrp, echo=TRUE}
+sol.rp <- readFLRPss3(dir)
+sol.rp
+```
+
+```{r solreadkobe, echo=TRUE}
+sol.kobe <- readKobess3(dir)
+sol.kobe
+```
+
+```{r solreadres, echo=TRUE}
+sol.res <- readRESss3(dir)
+head(sol.res)
+```
+
+```{r solreadflib, echo=TRUE}
+sol.idx <- readFLIBss3(dir)
+sol.idx
+```
+
+```{r solreadom, echo=TRUE}
+sol.om <- readFLomss3(dir)
+sol.om
+```
+
+```{r solreadoms, echo=TRUE}
+sol.oms <- readOMSss3(dir)
+names(sol.oms)
+```
+
+```{r solreadcd, echo=TRUE}
+sol.cd <- readCDss3(dir, name="sol274")
+names(sol.cd)
+```
+
+`readFLoemss3`, `readFLomeOMss3`, `readSRIss3` and `readRESIDss3` build objects used to run an observation error model as part of an MSE loop, but currently only work with **SS** models of version 3.24 or earlier, so they cannot be demonstrated on the `sol` (**SS** 3.30) dataset.
+
+## `build` functions on `sol`
+
+The `build*` functions take the list already loaded by `readOutputss3()`, or stored in `data(sol)`, and construct the corresponding FLR object. As `sol` comes from a **SS** 3.30 model, the `*ss330` variants must be used.
+
+| Function          | Output class          | Description                          |
+|-------------------|------------------------|---------------------------------------|
+| buildFLSss330     | *FLStock*              | Stock and catch time series           |
+| buildFLSRss3      | *FLSR*                 | Stock-recruitment relationship        |
+| buildFLRPss330    | *FLPar*                | Reference points                      |
+| buildKobess330    | *FLQuants*             | B/BMSY and F/FMSY time series          |
+| buildRESss330     | *data.table*           | Time series of stock summary results  |
+| buildFLIBss330    | *FLIndices*            | Abundance indices (`FLIndexBiomass`)  |
+| buildFLIss330     | *FLIndices*            | Abundance indices (`FLIndex`)         |
+| buildFLBss330     | *FLBiol*               | Biological time series                |
+| buildFLBFss330    | *FLBiol* + *FLFisheries*| Biology and fisheries                |
+| buildLCss330      | *FLQuant*              | Length composition data               |
+| buildKobess3, buildFLRPss3, buildRESss3, buildFLIBss3, buildFLSss3 | | Equivalent builders for **SS** 3.24 models |
+
+```{r solbuildfls, echo=TRUE}
+sol.stk <- buildFLSss330(sol)
+plot(sol.stk)
+```
+
+```{r solbuildflsr, echo=TRUE}
+sol.sr <- buildFLSRss3(sol)
+sol.sr
+```
+
+```{r solbuildflrp, echo=TRUE}
+sol.rp <- buildFLRPss330(sol)
+sol.rp
+```
+
+```{r solbuildkobe, echo=TRUE}
+sol.kobe <- buildKobess330(sol)
+sol.kobe
+```
+
+```{r solbuildres, echo=TRUE}
+sol.res <- buildRESss330(sol)
+head(sol.res)
+```
+
+```{r solbuildflib, echo=TRUE}
+sol.idx <- buildFLIBss330(sol)
+sol.idx
+```
+
+```{r solbuildfli, echo=TRUE}
+sol.fli <- buildFLIss330(sol)
+sol.fli
+```
+
+```{r solbuildflb, echo=TRUE}
+sol.bio <- buildFLBss330(sol)
+sol.bio
+```
+
+`buildFLBFss330`, which constructs an `FLBiol` plus a matching set of `FLFisheries`, and `buildLCss330`, which extracts length composition data from a `dat` input file, are not demonstrated here as they require, respectively, a fleet structure and length composition data not present in the `sol` model.
+
 # Loading a full OM grid using `load`
 
 # Flow of information SS3 - FLR

@@ -164,7 +164,7 @@ ss3catch30 <- function(catage, wtatage, dmns, birthseas, idx, col="RetWt",
   setorder(wtatage, "fleet", "season", "unit", "age")
 
   # FLQuants for catch per fleet
-  catch <- lapply(idx, function(x) {
+  catch <- lapply(setNames(nm=idx), function(x) {
     catch.n <- as.FLQuant(catage[fleet %in% x,][, fleet:=NULL], units="1000")
     catch.wt <- do.call('expand',
       c(list(x=as.FLQuant(wtatage[fleet %in% x,][, fleet:=NULL], units="kg")),

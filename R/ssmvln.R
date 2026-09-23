@@ -125,10 +125,10 @@ ssmvln <- function(covar, hat=NULL, mc=500, new=!FALSE, as.FLQuants=TRUE) {
   rtn <- data.table(rtn)
 
   rtn[, grep("[[:digit:]]", colnames(rtn), invert=TRUE):=NULL]
-  
   rtn[, iter:=seq(mc)]
   rtn <- melt(rtn, id="iter")
-  rtn <- rtn[, c("variable", "year"):= tstrsplit(variable, "_")]
+
+  rtn <- rtn[, c("variable", "year"):= tstrsplit(variable, "_")[1:2]]
   
   setnames(rtn, c("variable", "value"), c("qname", "data"))
 
