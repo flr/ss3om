@@ -11,8 +11,10 @@ importFrom("mvtnorm", "rmvnorm")
 export(
   "buildFLBFss3",
   "buildFLBFss330",
+  "buildFLBss330",
   "buildFLIBss3",
   "buildFLIBss330",
+  "buildFLIss330",
   "buildFLSss3",
   "buildFLSss330",
   "buildFLSRss3",
