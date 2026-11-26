@@ -23,6 +23,11 @@
 #' @aliases ss3index
 #' @param cpue A data frame obtained from SS_output$cpue.
 #' @param fleets A named list of vector of the fleets to be extracted.
+#' @param factor Factor of `selex` to extract in `ss3sel.pattern`. Defaults to `"Asel2"`.
+#' @param option Maturity option of the SS3 model, as in `ss3mat` and `ss3mat30`. Defaults to `3`.
+#' @param spawnseas The spawning season of the stock, as used by `ss3mat30`.
+#' @param era Era(s) of the SS3 output to extract, as in `ss3n30` and `ss3catch30`. Defaults to `"TIME"`.
+#' @param col Name of the retained weight-at-age columns to extract in `ss3catch30`. Defaults to `"RetWt"`.
 #' @details - `ss3index` returns the `index` slot of each survey/CPUE fleet.
 
 ss3index <- function(cpue, fleets) {

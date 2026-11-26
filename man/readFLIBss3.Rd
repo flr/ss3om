@@ -16,6 +16,8 @@ readFLIBss3(
 \arguments{
 \item{dir}{Directory containing the SS3 output files}
 
+\item{fleets}{Named vector of survey/CPUE fleets to extract.}
+
 \item{birthseas}{The birthseasons for this stock as a numeric vector.}
 
 \item{repfile}{SS3 Report.sso file}
@@ -23,9 +25,6 @@ readFLIBss3(
 \item{compfile}{SS3 CompReport.sso file}
 
 \item{...}{Any other argument to be passed to \code{r4ss::SS_output}}
-}
-\value{
-An object of class \link[FLCore:FLStock]{FLStock}
 }
 \description{
 A function to read the CPUE series from an SS3 run into an \code{FLIndex} object

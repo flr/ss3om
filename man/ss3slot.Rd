@@ -14,6 +14,7 @@
 \alias{ss3catch}
 \alias{ss3mat30}
 \alias{ss3m30}
+\alias{ss3mage30}
 \alias{ss3n30}
 \alias{ss3catch30}
 \title{Functions to convert SS3 output into FLQuant(s)}
@@ -42,6 +43,8 @@ ss3mat30(endgrowth, dmns, spawnseas, option = 3)
 
 ss3m30(endgrowth, dmns, birthseas)
 
+ss3mage30(M_at_age, dmns, m)
+
 ss3n30(n, dmns, era = "TIME")
 
 ss3catch30(catage, wtatage, dmns, birthseas, idx, col = "RetWt", era = "TIME")
@@ -57,11 +60,15 @@ ss3catch30(catage, wtatage, dmns, birthseas, idx, col = "RetWt", era = "TIME")
 
 \item{morphs}{Vector of morphs to use}
 
+\item{factor}{Factor of \code{selex} to extract in \code{ss3sel.pattern}. Defaults to \code{"Asel2"}.}
+
 \item{endgrowth}{A data frame obtained from SS_output$endgrowth.}
 
 \item{dmns}{dimnames of the output object, usually obatined using \code{getDimnames}.}
 
 \item{birthseas}{The birthseasons for this stock as a numeric vector.}
+
+\item{option}{Maturity option of the SS3 model, as in \code{ss3mat} and \code{ss3mat30}. Defaults to \code{3}.}
 
 \item{n}{A data frame obtained from SS_output$natage.}
 
@@ -70,6 +77,16 @@ ss3catch30(catage, wtatage, dmns, birthseas, idx, col = "RetWt", era = "TIME")
 \item{wtatage}{A data frame obtained from SS_output$endgrowth but subset for \code{birthseas} and \verb{RetWt:_idx}.}
 
 \item{idx}{The fishing fleets, as in \code{SS_output$fleet_ID[SS_output$IsFishFleet]}.}
+
+\item{spawnseas}{The spawning season of the stock, as used by \code{ss3mat30}.}
+
+\item{M_at_age}{A data frame obtained from SS_output$M_at_age.}
+
+\item{m}{The \code{m} slot returned by \code{ss3m30}, used as the fallback.}
+
+\item{era}{Era(s) of the SS3 output to extract, as in \code{ss3n30} and \code{ss3catch30}. Defaults to \code{"TIME"}.}
+
+\item{col}{Name of the retained weight-at-age columns to extract in \code{ss3catch30}. Defaults to \code{"RetWt"}.}
 }
 \value{
 An FLQuant or FLQuants object, depending on the converted data structure
@@ -126,6 +143,15 @@ FLQuant or FLQuants objects.
 
 \itemize{
 \item \code{ss3m} returns the \code{m} slot.
+}
+
+\itemize{
+\item \code{ss3mage30} returns the \code{m} slot from \code{M_at_age} when natural
+mortality varies over years. \code{endgrowth} only holds the biology of the final
+year, so \code{ss3m30} copies the last year's M to every year. If M does not vary
+over years, or \code{M_at_age} cannot be mapped onto the stock dimensions (e.g.
+several growth patterns or birth seasons as units), \code{m} is returned unchanged.
+SS3 reports M for the plus group as NA; the oldest age with a value is used.
 }
 
 \itemize{

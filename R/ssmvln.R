@@ -81,6 +81,13 @@ sscor <- function(covar){
 
 #' FLQuant version of ss3diags::MVLN
 #'
+#' @param covar A covariance matrix, or an SS3 output list with a `CoVar` element.
+#' @param hat Estimated values of the quantities, as in `derived_quants`. Defaults to `NULL`.
+#' @param mc Number of Monte Carlo samples.
+#' @param new Logical; whether to generate new samples.
+#' @param as.FLQuants Logical; whether to return the samples as `FLQuants`.
+#'
+#' @return An `FLQuants` object, or a list of matrices if `as.FLQuants=FALSE`.
 #' @examples
 #' data(sma)
 #' head(ssmvln(sma$CoVar, sma$derived_quants, as.FLQuants=FALSE))
@@ -150,6 +157,11 @@ ssmvln <- function(covar, hat=NULL, mc=500, new=!FALSE, as.FLQuants=TRUE) {
 # SSB/SSB?, F/F?, SSB, F, R, C 
 
 
+#' Converts the output of `ssmvln` into a list of FLQuants
+#'
+#' @param mvln Output of `ssmvln` with `as.FLQuants=FALSE`.
+#'
+#' @return A named list of `FLQuants` for Recr, SSB, Catch and F.
 mvlnFLQuants <- function(mvln) {
 
   # SET input and output names

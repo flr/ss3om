@@ -30,6 +30,7 @@
 #' for models where F reporting basis is F/FMSY.
 #'
 #' @param out A list as returned by r4ss::SS_output.
+#' @param endyr Last year of the series to extract. Defaults to the end of the forecast period.
 #'
 #' @return An *FLQuant* object of the requested quantity.
 #' @rdname extractSS

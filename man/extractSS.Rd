@@ -20,6 +20,8 @@ extractDevs(out)
 }
 \arguments{
 \item{out}{A list as returned by r4ss::SS_output.}
+
+\item{endyr}{Last year of the series to extract. Defaults to the end of the forecast period.}
 }
 \value{
 An \emph{FLQuant} object of the requested quantity.

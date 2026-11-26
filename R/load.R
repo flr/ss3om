@@ -7,6 +7,14 @@
 # Distributed under the terms of the European Union Public Licence (EUPL) V.1.1.
 
 # loadOM - FLom {{{
+#' Loads an operating model (FLom) from SS3 run directories
+#'
+#' @param dir Directory containing the SS3 run subdirectories.
+#' @param subdirs Subdirectories to load. Defaults to all subdirectories of `dir`.
+#' @param progress Logical; whether to show a progress bar.
+#' @param ... Other arguments passed to `readFLomss3`.
+#'
+#' @return An object of class [FLom][mse::FLom-class].
 loadOM <- function(dir=".", subdirs=list.dirs(path=dir, recursive=FALSE),
   progress=TRUE, ...) {
 
@@ -38,6 +46,17 @@ loadOM <- function(dir=".", subdirs=list.dirs(path=dir, recursive=FALSE),
 } # }}}
 
 # loadOMS - list(stock, sr, indices, results, refpts) {{{
+#' Loads OM and related objects from a set of SS3 run directories
+#'
+#' @param dir Directory containing the SS3 run subdirectories.
+#' @param subdirs Subdirectories to load. Defaults to all subdirectories of `dir`.
+#' @param progress Logical; whether to show a progress bar.
+#' @param combine Logical; whether to combine the results of all runs.
+#' @param simplify Optional; if set, the list is simplified to this element.
+#' @param grid Optional grid `data.frame`, as used by `runss3grid`, describing the runs.
+#' @param ... Other arguments passed to `readOMSss3`.
+#'
+#' @return A list with the stock, stock-recruit, reference points, results and output of the runs.
 loadOMS <- function(dir=".", subdirs=list.dirs(path=dir, recursive=FALSE),
   progress=TRUE, combine=TRUE, simplify=NULL, grid=NULL, ...) {
 
@@ -123,6 +142,17 @@ loadOMS <- function(dir=".", subdirs=list.dirs(path=dir, recursive=FALSE),
 } # }}}
 
 # loadFLS - stock {{{
+#' Loads FLStock objects from a set of SS3 run directories
+#'
+#' @param dir Directory containing the SS3 run subdirectories.
+#' @param subdirs Subdirectories to load. Defaults to all subdirectories of `dir`.
+#' @param progress Logical; whether to show a progress bar.
+#' @param combine Logical; whether to combine the runs into a single object.
+#' @param convert Logical; whether to convert the outputs to `FLStock` objects.
+#' @param iters Indices of the subdirectories to load.
+#' @param ... Other arguments passed to `readFLSss3`.
+#'
+#' @return An `FLStock` or `FLStocks` object, or a list of them.
 loadFLS <- function(dir=".", subdirs=list.dirs(path=dir, recursive=FALSE),
   progress=TRUE, combine=TRUE, convert=TRUE, iters=seq(length(subdirs)), ...) {
 
@@ -163,6 +193,16 @@ loadFLS <- function(dir=".", subdirs=list.dirs(path=dir, recursive=FALSE),
 } # }}}
 
 # loadFLQs - list(stock, sr, indices, results, refpts) {{{
+#' Loads quantities (REC, SSB, C, F) from a set of SS3 run directories
+#'
+#' @param dir Directory containing the SS3 run subdirectories.
+#' @param subdirs Subdirectories to load. Defaults to all subdirectories of `dir`.
+#' @param progress Logical; whether to show a progress bar.
+#' @param convert Logical; whether to convert the outputs to `FLQuant` objects.
+#' @param metrics Named list of functions computing each quantity. Defaults to REC, SSB, C and F.
+#' @param ... Other arguments passed to the functions in `metrics`.
+#'
+#' @return A named list of `FLQuants`, one element per metric.
 loadFLQs <- function(dir=".", subdirs=list.dirs(path=dir, recursive=FALSE),
   progress=TRUE, convert=TRUE, metrics=list(REC=rec, SSB=ssb, C=catch, F=fbar), ...) {
 
@@ -198,6 +238,16 @@ loadFLQs <- function(dir=".", subdirs=list.dirs(path=dir, recursive=FALSE),
 } # }}}
 
 # loadRES - data.frame {{{
+#' Loads likelihood components from a set of SS3 run directories
+#'
+#' @param dir Directory containing the SS3 run subdirectories.
+#' @param subdirs Subdirectories to load. Defaults to all subdirectories of `dir`.
+#' @param progress Logical; whether to show a progress bar.
+#' @param iters Indices of the subdirectories to load.
+#' @param grid Optional grid `data.frame`, as used by `runss3grid`, describing the runs.
+#' @param ... Other arguments passed to `readRESss3`.
+#'
+#' @return A list with the likelihood components of the runs.
 loadRES <- function(dir=".", subdirs=list.dirs(path=dir, recursive=FALSE),
   progress=TRUE, iters=seq(length(subdirs)), grid=NULL, ...) {
 
@@ -230,6 +280,17 @@ loadRES <- function(dir=".", subdirs=list.dirs(path=dir, recursive=FALSE),
 } # }}}
 
 # loadRPs {{{
+#' Loads reference points from a set of SS3 run directories
+#'
+#' @param dir Directory containing the SS3 run subdirectories.
+#' @param subdirs Subdirectories to load. Defaults to all subdirectories of `dir`.
+#' @param progress Logical; whether to show a progress bar.
+#' @param repfile Name of the Report file.
+#' @param compfile Name of the CompReport file.
+#' @param covarfile Name of the covariance file.
+#' @param ... Not used.
+#'
+#' @return A list with the reference points of the runs.
 loadRPs <- function(dir=".", subdirs=list.dirs(path=dir, recursive=FALSE),
   progress=TRUE, repfile="Report.sso", compfile="CompReport.sso",
   covarfile="covar.sso", ...) {
@@ -256,6 +317,15 @@ loadRPs <- function(dir=".", subdirs=list.dirs(path=dir, recursive=FALSE),
 } # }}}
 
 # loadRESIDs - list(sr, indices) {{{
+#' Loads stock-recruit relationships and indices from a set of SS3 run directories
+#'
+#' @param dir Directory containing the SS3 run subdirectories.
+#' @param subdirs Subdirectories to load. Defaults to all subdirectories of `dir`.
+#' @param progress Logical; whether to show a progress bar.
+#' @param combine Logical; whether to combine the runs into a single object.
+#' @param ... Other arguments passed to `readRESIDss3`.
+#'
+#' @return A list with elements `sr` (stock-recruit) and `indices`.
 loadRESIDs <- function(dir=".", subdirs=list.dirs(path=dir, recursive=FALSE),
   progress=TRUE, combine=TRUE, ...) {
 
@@ -313,6 +383,16 @@ loadRESIDs <- function(dir=".", subdirs=list.dirs(path=dir, recursive=FALSE),
 
 # loadOUT {{{
 # TODO SET to work with compress
+#' Loads SS3 output lists from a set of SS3 run directories
+#'
+#' @param dir Directory containing the SS3 run subdirectories.
+#' @param subdirs Subdirectories to load. Defaults to all subdirectories of `dir`.
+#' @param progress Logical; whether to show a progress bar.
+#' @param repfile Name of the Report file.
+#' @param compfile Name of the CompReport file.
+#' @param ... Not used.
+#'
+#' @return A list of SS3 output lists, as returned by `readOutputss3`.
 loadOUT <- function(dir=".", subdirs=list.dirs(path=dir, recursive=FALSE),
   progress=TRUE, repfile="Report.sso", compfile="CompReport.sso", ...) {
 
