@@ -9,6 +9,16 @@
 
 # buildFLSss3 - FLStock {{{
 
+#' Builds an FLStock from SS3 output
+#'
+#' @param out A list as returned by `r4ss::SS_output`.
+#' @param birthseas The birthseasons for this stock as a numeric vector.
+#' @param name Name of the stock.
+#' @param desc Description of the stock.
+#' @param range Range of the stock, as in `FLStock`. Defaults to `"missing"`.
+#' @param fleets Named vector of fishing fleets to include.
+#'
+#' @return An object of class [FLStock][FLCore::FLStock].
 buildFLSss3 <- function(out, birthseas=out$birthseas, name=out$Control_File,
   desc=paste(out$inputs$repfile, out$SS_versionshort, sep=" - "), range="missing",
   fleets=setNames(out$fleet_ID[out$IsFishFleet], out$fleet_ID[out$IsFishFleet])) {
@@ -164,6 +174,12 @@ buildFLSss3 <- function(out, birthseas=out$birthseas, name=out$Control_File,
 } # }}}
 
 # buildFLSRss3 - FLSR {{{
+#' Builds a stock-recruit relationship (FLSR) from SS3 output
+#'
+#' @param out A list as returned by `r4ss::SS_output`.
+#' @param ... Not used.
+#'
+#' @return An object of class [FLSR][FLCore::FLSR].
 buildFLSRss3 <- function(out, ...) {
   
   # SUBSET out
@@ -281,6 +297,14 @@ buildFLSRss3 <- function(out, ...) {
 # }}}
 
 # buildFLIBss3 - FLIndices(FLIndexBiomass) {{{
+#' Builds biomass indices (FLIndexBiomass) from SS3 output
+#'
+#' @param out A list as returned by `r4ss::SS_output`.
+#' @param fleets Named vector of survey/CPUE fleets to extract.
+#' @param birthseas The birthseasons for this stock as a numeric vector.
+#' @param ... Not used.
+#'
+#' @return An object of class [FLIndices][FLCore::FLIndices].
 buildFLIBss3 <- function(out, fleets, birthseas=out$birthseas, ...) {
 
   # SUBSET from out
@@ -362,6 +386,12 @@ buildFLIBss3 <- function(out, fleets, birthseas=out$birthseas, ...) {
 } # }}}
 
 # buildFLRPss3 - FLPar {{{
+#' Builds reference points from SS3 output
+#'
+#' @param out A list as returned by `r4ss::SS_output`.
+#' @param ... Not used.
+#'
+#' @return An object of class [FLPar][FLCore::FLPar].
 buildFLRPss3 <- function(out, ...) {
 
   # SUBSET out
@@ -390,6 +420,12 @@ buildFLRPss3 <- function(out, ...) {
 } # }}}
 
 # buildKobess3 - data.frame {{{
+#' Builds Kobe quantities from SS3 output
+#'
+#' @param out A list as returned by `r4ss::SS_output`.
+#' @param ... Not used.
+#'
+#' @return An object of class [FLQuants][FLCore::FLQuants] with the Kobe quantities.
 buildKobess3 <- function(out, ...) {
 
   yrs <- out$Kobe[,'Year']
@@ -402,6 +438,12 @@ buildKobess3 <- function(out, ...) {
 } # }}}
 
 # buildRESss3 - data.table {{{
+#' Builds likelihood components from SS3 output
+#'
+#' @param out A list as returned by `r4ss::SS_output`.
+#' @param ... Not used.
+#'
+#' @return A `data.table` with the likelihood components by fleet.
 buildRESss3 <- function(out, ...) {
 
   lkels <- c("TOTAL", "Catch", "Survey", "Length_comp", "Recruitment")
@@ -454,6 +496,13 @@ buildRESss3 <- function(out, ...) {
 
 # buildFLBFss3 - list(FLBiol, FLFisheries) {{{
 
+#' Builds an FLBiol and FLFisheries from SS3 output
+#'
+#' @param out A list as returned by `r4ss::SS_output`.
+#' @param birthseas The birthseasons for this stock as a numeric vector.
+#'
+#' @return A list with elements `biol` (an [FLBiol][FLCore::FLBiol]) and `fisheries`
+#' (an [FLFisheries][FLFishery::FLFisheries]).
 buildFLBFss3 <- function(out, birthseas=unique(out$natage$BirthSeas)) {
   
   out <- out[c("catage", "wtatage", "natage", "ageselex", "endgrowth",

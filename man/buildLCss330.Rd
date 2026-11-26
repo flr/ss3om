@@ -6,6 +6,12 @@
 \usage{
 buildLCss330(dat)
 }
+\arguments{
+\item{dat}{A data list as returned by \code{r4ss::SS_readdat}, with a \code{lencomp} element.}
+}
+\value{
+An \code{FLQuants} object with the length distributions by fleet.
+}
 \description{
 Creates an FLQuants from length-distributions by fleet
 }

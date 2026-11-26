@@ -77,6 +77,14 @@ getRange <- function(x, era="TIME") {
 } # }}}
 
 # packss3run {{{
+#' Compresses SS3 output files and removes unneeded ones
+#'
+#' @param dir Directory of the SS3 run.
+#' @param gzfiles Output files to compress.
+#' @param keepfiles Files to keep uncompressed.
+#' @param inputfiles Input files to keep.
+#'
+#' @return Invisibly, `0`.
 packss3run <- function(dir=getwd(),
   gzfiles=c("Report.sso", "covar.sso", "CompReport.sso"),
   keepfiles=c("warning.sso", "Forecast-report.sso", "starter.ss", "forecast.ss",
@@ -157,6 +165,11 @@ dimss3 <- function(out, era="TIME") {
 
 # runtime {{{
 
+#' Returns the run time of an SS3 model
+#'
+#' @param dir Directory of the SS3 run, containing `Report.sso`.
+#'
+#' @return A `difftime` object with the time taken by the run.
 runtime <- function(dir) {
 
   out <- readLines(file.path(dir, "Report.sso"), n = 12)
@@ -172,6 +185,12 @@ runtime <- function(dir) {
 } # }}}
 
 # convergencelevel {{{
+#' Returns the convergence level of an SS3 run
+#'
+#' @param dir Path to the SS3 run directory, or to its `Report.sso` file.
+#' @param compress Compression extension of the Report file, if compressed.
+#'
+#' @return A numeric value with the convergence level.
 convergencelevel <- function(dir, compress="gz") {
 
   if(grepl("Report.sso", basename(dir))) {
@@ -188,6 +207,13 @@ convergencelevel <- function(dir, compress="gz") {
 
 # prepareRetro {{{
 
+#' Prepares a retrospective analysis for an SS3 model
+#'
+#' @param path Directory of the SS3 model.
+#' @param starter Name of the starter file.
+#' @param years Number of years to peel off in the retrospective analysis.
+#'
+#' @return Invisibly, `TRUE`.
 prepareRetro <- function(path, starter="starter.ss", years=5) {
 
   # CREATE "retro" folder

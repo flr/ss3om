@@ -18,11 +18,12 @@
 #'
 #' @param dir Directory containing the SS3 output files
 #' @param birthseas The birthseasons for this stock as a numeric vector.
+#' @param fleets Named vector of survey/CPUE fleets to extract.
+#' @param compfile SS3 CompReport.sso file
+#' @param fleets Named vector of survey/CPUE fleets to extract.
 #' @param ... Any other argument to be passed to `r4ss::SS_output`
 #' @param repfile SS3 Report.sso file
-#' @param compfile SS3 CompReport.sso file
-#'
-#' @return An object of class [FLStock][FLCore::FLStock]
+
 #'
 #' @name readFLIBss3
 #' @rdname readFLIBss3
@@ -45,6 +46,14 @@ readFLIBss3 <- function(dir, fleets, birthseas=out$birthseas,
 } # }}}
 
 # readFLomss3 {{{
+#' Reads an operating model (FLom) from SS3 output
+#'
+#' @param dir Directory containing the SS3 output files.
+#' @param repfile Name of the Report file.
+#' @param compfile Name of the CompReport file.
+#' @param ... Other arguments passed to `r4ss::SS_output`.
+#'
+#' @return An object of class [FLom][mse::FLom-class].
 readFLomss3 <- function(dir, repfile="Report.sso",
   compfile="CompReport.sso", ...) {
 
@@ -67,6 +76,15 @@ readFLomss3 <- function(dir, repfile="Report.sso",
 } # }}}
 
 # readOutputss3 {{{
+#' Reads SS3 output files into a list
+#'
+#' @param dir Directory containing the SS3 output files.
+#' @param repfile Name of the Report file.
+#' @param compfile Name of the CompReport file.
+#' @param covarfile Name of the covariance file, or `FALSE` to skip it.
+#' @param compress Compression extension of the output files, if compressed.
+#'
+#' @return A list as returned by `r4ss::SS_output`.
 readOutputss3 <- function(dir, repfile = "Report.sso",
   compfile = "CompReport.sso", covarfile = "covar.sso", compress="gz") {
 
@@ -85,6 +103,13 @@ readOutputss3 <- function(dir, repfile = "Report.sso",
 } # }}}
 
 # readFLRPss3 {{{
+#' Reads SS3 reference points into an FLPar object
+#'
+#' @param dir Directory containing the SS3 output files.
+#' @param repfile Name of the Report file.
+#' @param compfile Name of the CompReport file.
+#'
+#' @return An object of class [FLPar][FLCore::FLPar].
 readFLRPss3 <- function(dir, repfile="Report.sso", compfile="CompReport.sso") {
 
   # LOAD SS_output list
@@ -108,9 +133,11 @@ readFLRPss3 <- function(dir, repfile="Report.sso", compfile="CompReport.sso") {
 #'
 #' @param dir Directory containing the SS3 output files
 #' @param birthseas The birthseasons for this stock as a numeric vector.
+#' @param repfile SS3 Report.sso file
+#' @param compfile SS3 CompReport.sso file
 #' @param ... Any other argument to be passed to `r4ss::SS_output`
 #'
-#' @return An object of class [FLStock][FLCore::FLStock]
+#' @return An object of class [FLSR][FLCore::FLSR]
 #'
 #' @name readFLSRss3
 #' @rdname readFLSRss3
@@ -249,6 +276,14 @@ readFLSss3 <- function(dir, repfile="Report.sso", compfile="CompReport.sso",
 # readFLFss3
 
 # readRESss3 {{{
+#' Reads SS3 likelihood components
+#'
+#' @param dir Directory containing the SS3 output files.
+#' @param repfile Name of the Report file.
+#' @param compfile Name of the CompReport file.
+#' @param ... Other arguments passed to `buildRESss3`.
+#'
+#' @return A `data.table` with the likelihood components by fleet.
 readRESss3 <- function(dir, repfile="Report.sso", compfile="CompReport.sso", ...) {
 
   # LOAD SS_output list
@@ -262,6 +297,13 @@ readRESss3 <- function(dir, repfile="Report.sso", compfile="CompReport.sso", ...
 } # }}}
 
 # readKobess3 {{{
+#' Reads Kobe quantities from SS3 output
+#'
+#' @param dir Directory containing the SS3 output files.
+#' @param repfile Name of the Report file.
+#' @param compfile Name of the CompReport file.
+#'
+#' @return An object of class [FLQuants][FLCore::FLQuants] with the Kobe quantities.
 readKobess3 <- function(dir, repfile="Report.sso", compfile="CompReport.sso") {
 
   # LOAD SS_output list
@@ -275,6 +317,15 @@ readKobess3 <- function(dir, repfile="Report.sso", compfile="CompReport.sso") {
 } # }}}
 
 # readFLoemss3 {{{
+#' Reads an observation error model (FLoem) from SS3 output
+#'
+#' @param dir Directory containing the SS3 output files.
+#' @param fleets Named vector of survey/CPUE fleets to extract.
+#' @param repfile Name of the Report file.
+#' @param compfile Name of the CompReport file.
+#' @param ... Other arguments passed to `r4ss::SS_output`.
+#'
+#' @return An object of class [FLoem][mse::FLoem-class].
 readFLoemss3 <- function(dir, fleets, repfile="Report.sso",
   compfile="CompReport.sso", ...) {
 
@@ -327,6 +378,15 @@ readFLomeOMss3 <- function(dir, birthseas=out$birthseas, fleets,
 } # }}}
 
 # readOMSss3 {{{
+#' Reads an SS3 run into a list of stock, stock-recruit and indices objects
+#'
+#' @param dir Directory containing the SS3 output files.
+#' @param fleets Named vector of survey/CPUE fleets to extract.
+#' @param repfile Name of the Report file.
+#' @param compfile Name of the CompReport file.
+#' @param ... Other arguments passed to `r4ss::SS_output`.
+#'
+#' @return A list with elements `stock`, `sr`, `indices`, `refpts`, `results` and `out`.
 readOMSss3 <- function(dir, fleets,
   repfile="Report.sso", compfile="CompReport.sso", ...) {
 
@@ -362,6 +422,16 @@ readOMSss3 <- function(dir, fleets,
 } # }}}
 
 # readSRIss3 {{{
+#' Reads stock-recruit relationship and indices from SS3 output
+#'
+#' @param dir Directory containing the SS3 output files.
+#' @param birthseas The birthseasons for this stock as a numeric vector.
+#' @param fleets Named vector of survey/CPUE fleets to extract.
+#' @param repfile Name of the Report file.
+#' @param compfile Name of the CompReport file.
+#' @param ... Other arguments passed to `r4ss::SS_output`.
+#'
+#' @return A list with elements `sr` (an [FLSR][FLCore::FLSR]) and `indices`.
 readSRIss3 <- function(dir, birthseas=out$birthseas, fleets,
   repfile="Report.sso", compfile="CompReport.sso", ...) {
 
@@ -381,6 +451,16 @@ readSRIss3 <- function(dir, birthseas=out$birthseas, fleets,
 } # }}}
 
 # readRESIDss3 {{{
+#' Reads recruitment residuals and indices from SS3 output
+#'
+#' @param dir Directory containing the SS3 output files.
+#' @param birthseas The birthseasons for this stock as a numeric vector.
+#' @param fleets Named vector of survey/CPUE fleets to extract.
+#' @param repfile Name of the Report file.
+#' @param compfile Name of the CompReport file.
+#' @param ... Other arguments passed to `r4ss::SS_output`.
+#'
+#' @return A list with elements `sr` (an [FLSR][FLCore::FLSR]) and `indices`.
 readRESIDss3 <- function(dir, birthseas=out$birthseas, fleets,
   repfile="Report.sso", compfile="CompReport.sso", ...) {
 
@@ -400,6 +480,12 @@ readRESIDss3 <- function(dir, birthseas=out$birthseas, fleets,
 } # }}}
 
 # readCDss3 {{{
+#' Reads the control and data files of an SS3 model
+#'
+#' @param dir Directory containing the SS3 model files.
+#' @param name Base name of the control (`.ctl`) and data (`.dat`) files, without extension.
+#'
+#' @return A list with elements `ctl` and `dat`.
 readCDss3 <- function(dir, name) {
 
   # SET ctl, dat full paths

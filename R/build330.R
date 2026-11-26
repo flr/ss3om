@@ -12,6 +12,17 @@
 
 # buildFLSss330 - FLStock {{{
 
+#' Builds an FLStock from SS3 (v3.30) output
+#'
+#' @param out A list as returned by `r4ss::SS_output`.
+#' @param morphs Vector of morphs to use.
+#' @param name Name of the stock.
+#' @param desc Description of the stock.
+#' @param fleets Named vector of fishing fleets to include.
+#' @param range Range of the stock, as in `FLStock`. Defaults to `"missing"`.
+#' @param forecast Logical; whether to include forecast years.
+#'
+#' @return An object of class [FLStock][FLCore::FLStock].
 buildFLSss330 <- function(out, morphs=out$morph_indexing$Index, 
   name=out$Control_File, desc=paste(out$inputs$repfile,
     out$SS_versionshort, sep=" - "),
@@ -84,8 +95,9 @@ buildFLSss330 <- function(out, morphs=out$morph_indexing$Index,
   if(out$Maturity_option == 6)
     mat <- mat / wt
 
-  # M
+  # M, time-varying from M_at_age if needed
   m <- ss3m30(endgrowth, dmns, morph)
+  m <- ss3mage30(out$M_at_age, dmns, m)
   
   # STOCK.N
   n <- ss3n30(natage, dmns, era=era)
@@ -209,6 +221,15 @@ buildFLSss330 <- function(out, morphs=out$morph_indexing$Index,
 } # }}}
 
 # buildFLIBss330 - FLIndices(FLIndexBiomass) {{{
+#' Builds biomass indices (FLIndexBiomass) from SS3 (v3.30) output
+#'
+#' @param out A list as returned by `r4ss::SS_output`.
+#' @param fleets Named vector of survey/CPUE fleets to extract.
+#' @param birthseas The birthseasons for this stock as a numeric vector.
+#' @param dat Optional data list as returned by `r4ss::SS_readdat`.
+#' @param ... Not used.
+#'
+#' @return An object of class [FLIndices][FLCore::FLIndices].
 buildFLIBss330 <- function(out, fleets, birthseas=out$birthseas, dat=NULL, ...) {
   
   # SUBSET from out
@@ -295,6 +316,14 @@ buildFLIBss330 <- function(out, fleets, birthseas=out$birthseas, dat=NULL, ...) 
 } # }}}
 
 # buildFLIss330 - FLIndices(FLIndex) {{{
+#' Builds abundance indices (FLIndex) from SS3 (v3.30) output
+#'
+#' @param out A list as returned by `r4ss::SS_output`.
+#' @param fleets Named vector of survey/CPUE fleets to extract.
+#' @param birthseas The birthseasons for this stock as a numeric vector.
+#' @param ... Not used.
+#'
+#' @return An object of class [FLIndices][FLCore::FLIndices].
 buildFLIss330 <- function(out, fleets, birthseas=out$birthseas, ...) {
   
   # SUBSET from out
@@ -381,6 +410,12 @@ buildFLIss330 <- function(out, fleets, birthseas=out$birthseas, ...) {
 } # }}}
 
 # buildFLRPss330 - FLPar {{{
+#' Builds reference points from SS3 (v3.30) output
+#'
+#' @param out A list as returned by `r4ss::SS_output`.
+#' @param ... Not used.
+#'
+#' @return An object of class [FLPar][FLCore::FLPar].
 buildFLRPss330 <- function(out, ...) {
 
   # SUBSET out
@@ -409,6 +444,12 @@ buildFLRPss330 <- function(out, ...) {
 } # }}}
 
 # buildRESss330 - data.table {{{
+#' Builds likelihood components from SS3 (v3.30) output
+#'
+#' @param out A list as returned by `r4ss::SS_output`.
+#' @param ... Not used.
+#'
+#' @return A `data.table` with the likelihood components by fleet.
 buildRESss330 <- function(out, ...) {
 
   lkels <- c("TOTAL", "Catch", "Survey", "Length_comp", "Recruitment")
@@ -490,6 +531,14 @@ buildRESss330 <- function(out, ...) {
 
 # buildFLBss330 - FLBiol {{{
 
+#' Builds an FLBiol object from SS3 (v3.30) output
+#'
+#' @param out A list as returned by `r4ss::SS_output`.
+#' @param morphs Vector of morphs to use.
+#' @param name Name of the stock.
+#' @param desc Description of the stock.
+#'
+#' @return An object of class [FLBiol][FLCore::FLBiol].
 buildFLBss330 <- function(out, morphs=out$morph_indexing$Index, name=out$Control_File,
   desc=paste(out$inputs$repfile, out$SS_versionshort, sep=" - ")) {
 
@@ -507,6 +556,12 @@ buildFLBss330 <- function(out, morphs=out$morph_indexing$Index, name=out$Control
 } # }}}
 
 # buildKobess330 - data.frame {{{
+#' Builds Kobe quantities from SS3 (v3.30) output
+#'
+#' @param out A list as returned by `r4ss::SS_output`.
+#' @param ... Not used.
+#'
+#' @return An object of class [FLQuants][FLCore::FLQuants] with the Kobe quantities.
 buildKobess330 <- function(out, ...) {
 
   yrs <- out$Kobe[,'Yr']
@@ -520,6 +575,17 @@ buildKobess330 <- function(out, ...) {
 
 # buildFLBFss330 - FLBiol + FLFisheries {{{
 
+#' Builds an FLBiol and FLFisheries from SS3 (v3.30) output
+#'
+#' @param out A list as returned by `r4ss::SS_output`.
+#' @param morphs Vector of morphs to use.
+#' @param name Name of the stock.
+#' @param desc Description of the stock.
+#' @param fleets Named vector of fishing fleets to include.
+#' @param range Range of the stock, as in `FLStock`. Defaults to `"missing"`.
+#'
+#' @return A list with elements `biol` (an [FLBiol][FLCore::FLBiol]) and `fisheries`
+#' (an [FLFisheries][FLFishery::FLFisheries]).
 buildFLBFss330 <- function(out, morphs=out$morph_indexing$Index, name=out$Control_File,
   desc=paste(out$inputs$repfile, out$SS_versionshort, sep=" - "),
   fleets=setNames(nm=out$fleet_ID[out$IsFishFleet]), range="missing") {
@@ -576,8 +642,9 @@ buildFLBFss330 <- function(out, morphs=out$morph_indexing$Index, name=out$Contro
   # STOCK.WT
   wt <- ss3wt30(endgrowth, dmns, birthseas=1)
 
-  # M
+  # M, time-varying from M_at_age if needed
   m <- ss3m30(endgrowth, dmns, morph)
+  m <- ss3mage30(out$M_at_age, dmns, m)
   
   # STOCK.N
   n <- ss3n30(natage, dmns)
@@ -728,6 +795,8 @@ buildFLBFss330 <- function(out, morphs=out$morph_indexing$Index, name=out$Contro
 
 #' Creates an FLQuants from length-distributions by fleet
 #'
+#' @param dat A data list as returned by `r4ss::SS_readdat`, with a `lencomp` element.
+#' @return An `FLQuants` object with the length distributions by fleet.
 #' @examples
 #' # LOAD data file
 #' #albd <- SS_readdat(system.file("ext-data", "albio", "abt.dat", package="ss3om"))

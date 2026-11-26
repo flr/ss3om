@@ -7,6 +7,15 @@
 # Distributed under the terms of the European Union Public Licence (EUPL) V.1.1.
 
 # runss3grid {{{
+#' Runs a grid of SS3 models
+#'
+#' @param grid A `data.frame` with the grid of parameters, one run per row.
+#' @param dir Directory where the grid runs are created.
+#' @param logfile File where the progress of the grid is logged.
+#' @param options Character string of options passed to the SS3 executable.
+#' @param pack Logical; whether to compress the output files of each run with `packss3run`.
+#'
+#' @return Invisibly, the lines of the log file.
 runss3grid <- function(grid, dir=paste0('grid', format(Sys.time(), "%Y%m%d")),
   logfile=file.path(dir, 'run_grid_log'), options="", pack=FALSE) {
 	
