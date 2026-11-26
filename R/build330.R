@@ -84,8 +84,9 @@ buildFLSss330 <- function(out, morphs=out$morph_indexing$Index,
   if(out$Maturity_option == 6)
     mat <- mat / wt
 
-  # M
+  # M, time-varying from M_at_age if needed
   m <- ss3m30(endgrowth, dmns, morph)
+  m <- ss3mage30(out$M_at_age, dmns, m)
   
   # STOCK.N
   n <- ss3n30(natage, dmns, era=era)
@@ -576,8 +577,9 @@ buildFLBFss330 <- function(out, morphs=out$morph_indexing$Index, name=out$Contro
   # STOCK.WT
   wt <- ss3wt30(endgrowth, dmns, birthseas=1)
 
-  # M
+  # M, time-varying from M_at_age if needed
   m <- ss3m30(endgrowth, dmns, morph)
+  m <- ss3mage30(out$M_at_age, dmns, m)
   
   # STOCK.N
   n <- ss3n30(natage, dmns)
