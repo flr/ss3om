@@ -95,6 +95,73 @@ ss3m30 <- function(endgrowth, dmns, birthseas) {
 }
 
 #' @rdname ss3slot
+#' @aliases ss3mage30
+#' @param M_at_age A data frame obtained from SS_output$M_at_age.
+#' @param m The `m` slot returned by `ss3m30`, used as the fallback.
+#' @details - `ss3mage30` returns the `m` slot from `M_at_age` when natural
+#' mortality varies over years. `endgrowth` only holds the biology of the final
+#' year, so `ss3m30` copies the last year's M to every year. If M does not vary
+#' over years, or `M_at_age` cannot be mapped onto the stock dimensions (e.g.
+#' several growth patterns or birth seasons as units), `m` is returned unchanged.
+#' SS3 reports M for the plus group as NA; the oldest age with a value is used.
+
+ss3mage30 <- function(M_at_age, dmns, m) {
+
+  if(is.null(M_at_age) || !is.data.frame(M_at_age) || nrow(M_at_age) == 0)
+    return(m)
+
+  ma <- data.table(M_at_age)
+  ages <- dmns$age
+  yrs <- as.numeric(dmns$year)
+
+  # CHECK ages, years and units can be matched
+  if(!all(ages %in% names(ma)) || !all(yrs %in% ma$Yr))
+    return(m)
+  if(length(dmns$unit) != length(unique(ma$Sex)))
+    return(m)
+
+  ma[, unit := dmns$unit[Sex]]
+  ma <- ma[Yr %in% yrs, c("unit", "Yr", ages), with=FALSE]
+
+  # one row per unit and year (several growth patterns not handled)
+  if(anyDuplicated(ma[, .(unit, Yr)]) > 0)
+    return(m)
+
+  # MELT, ages in order (age 0 can come out as integer)
+  ma[, (ages) := lapply(.SD, as.numeric), .SDcols=ages]
+  ma <- data.table::melt(ma, id.vars=c("unit", "Yr"), variable.name="age",
+    value.name="data")
+  ma[, age := factor(as.character(age), levels=ages)]
+  setorder(ma, unit, Yr, age)
+
+  # FILL plus group (NA in M_at_age) from the previous age
+  ma[, data := data.table::nafill(data, type="locf"), by=.(unit, Yr)]
+  if(anyNA(ma$data))
+    return(m)
+
+  # RETURN m unchanged if M is constant over years
+  vary <- ma[, .(r = diff(range(data))), by=.(unit, age)][, max(r)]
+  if(vary < 1e-8)
+    return(m)
+
+  # SPLIT M across seasons, as ss3m30
+  ma[, data := data / length(dmns$season)]
+
+  # EXPAND by season & area
+  ma <- ma[, .(age=as.character(age), year=as.character(Yr), unit, data)]
+  grid <- CJ(season=dmns$season, area=dmns$area)
+  ma <- merge(ma[, k := 1L], grid[, k := 1L], by="k",
+    allow.cartesian=TRUE)[, k := NULL]
+  res <- as.FLQuant(ma[, .(age, year, unit, season, area, data)], units="m")
+
+  # SAME dimnames and order as m
+  res <- res[dimnames(m)$age, dimnames(m)$year, dimnames(m)$unit,
+    dimnames(m)$season, dimnames(m)$area]
+
+  return(res)
+}
+
+#' @rdname ss3slot
 #' @aliases ss3n
 #' @param n A data frame obtained from SS_output$natage.
 #' @details - `ss3n30` returns the `stock.n` slot.
